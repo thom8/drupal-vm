@@ -102,6 +102,10 @@ Vagrant.configure('2') do |config|
     config.vm.synced_folder synced_folder.fetch('local_path'), synced_folder.fetch('destination'), options
   end
 
+  config.vm.provision "apt-update", type: "shell" do |s|
+    s.inline = "rm -rf /var/lib/apt/lists/* && apt-get update"
+  end
+
   config.vm.provision provisioner do |ansible|
     ansible.playbook = playbook
     ansible.extra_vars = {
